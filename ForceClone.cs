@@ -1,5 +1,5 @@
 using System.Reflection;
-using VRC.Core;
+using Il2CppVRC.Core;
 using MelonLoader;
 
 [assembly: MelonInfo(typeof(ForceClone.ForceCloneMod), "ForceClone", "1.0.0", "Behemoth")]
