@@ -13,21 +13,19 @@
 
         <AssemblySearchPaths>
             {RawFileName};
-            $(VRChatPath)/MelonLoader/net6;
-            $(VRChatPath)/MelonLoader/Il2CppAssemblies
+            $(VRChatPath)/Mods;
+            $(VRChatPath)/BepInEx/core;
+            $(VRChatPath)/BepInEx/interop;
+            $(VRChatPath)/BepInEx/unity-libs
         </AssemblySearchPaths>
     </PropertyGroup>
 
     <ItemGroup>
-        <Reference Include="MelonLoader">
-            <Private>False</Private>
-            <SpecificVersion>False</SpecificVersion>
-        </Reference>
         <Reference Include="0Harmony">
             <Private>False</Private>
             <SpecificVersion>False</SpecificVersion>
         </Reference>
-        <Reference Include="Il2CppVRCCore-Standalone">
+        <Reference Include="VRCCore-Standalone">
             <Private>False</Private>
             <SpecificVersion>False</SpecificVersion>
         </Reference>
@@ -45,7 +43,7 @@
     </Target>
 
     <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="Exists('$(VRChatPath)')">
-        <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(VRChatPath)\Mods" />
-        <Message Text="Copied $(TargetFileName) to $(VRChatPath)\Mods" Importance="high" />
+        <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(VRChatPath)\BepInEx\plugins" />
+        <Message Text="Copied $(TargetFileName) to $(VRChatPath)\plugins" Importance="high" />
     </Target>
 </Project>

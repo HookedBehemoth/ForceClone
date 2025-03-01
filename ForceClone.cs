@@ -1,22 +1,23 @@
+using BepInEx;
+using BepInEx.Unity.IL2CPP;
+using VRC.Core;
 using System.Reflection;
-using Il2CppVRC.Core;
-using MelonLoader;
+using HarmonyLib;
 
-[assembly: MelonInfo(typeof(ForceClone.ForceCloneMod), "ForceClone", "1.0.0", "Behemoth")]
-[assembly: MelonGame("VRChat", "VRChat")]
+namespace ForceClone;
 
-namespace ForceClone
+[BepInPlugin(MyPluginInfo.PLUGIN_GUID, MyPluginInfo.PLUGIN_NAME, MyPluginInfo.PLUGIN_VERSION)]
+[BepInProcess("VRChat.exe")]
+public class ForceCloneMod : BasePlugin
 {
-    public class ForceCloneMod : MelonMod
+    public override void Load()
     {
-        public override void OnInitializeMelon()
-        {
-            var original = typeof(APIUser).GetProperty(nameof(APIUser.allowAvatarCopying)).GetSetMethod();
-            var method = typeof(ForceCloneMod).GetMethod(nameof(ForceCloneMod.Hook), BindingFlags.NonPublic | BindingFlags.Static);
-            var patch = new HarmonyLib.HarmonyMethod(method);
-            HarmonyInstance.Patch(original, patch);
-        }
-
-        private static void Hook(ref bool __0) => __0 = true;
+        var original = typeof(APIUser).GetProperty(nameof(APIUser.allowAvatarCopying)).GetSetMethod();
+        var method = typeof(ForceCloneMod).GetMethod(nameof(Hook), BindingFlags.NonPublic | BindingFlags.Static);
+        var patch = new HarmonyMethod(method);
+        var harmony = new Harmony("com.reggie.ironlightsmod");
+        harmony.Patch(original, patch);
     }
+
+    private static void Hook(ref bool __0) => __0 = true;
 }
